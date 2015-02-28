@@ -3,15 +3,14 @@ package com.heaven.application.recyclerviewtest;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -27,20 +26,34 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         layoutManager = new SnakeLayoutManager(this);
 
         adapter = new RecyclerView.Adapter<ListViewHolder>(){
 
             @Override
-            public void onBindViewHolder(ListViewHolder vh, int i){
+            public void onBindViewHolder(ListViewHolder vh, final int i){
                 vh.content.setText("test:" + (i < 10 ? "00" : "") + (i >= 10 && i < 100 ? "0" : "") + i);
+                vh.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        Toast.makeText(MainActivity.this, "position:" + i, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             @Override
-            public ListViewHolder onCreateViewHolder(ViewGroup parent, int i){
+            public ListViewHolder onCreateViewHolder(ViewGroup parent, final int i){
 
                 View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listview, null, false);
+
+                itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        Toast.makeText(MainActivity.this, "position:" + i, Toast.LENGTH_LONG).show();
+                    }
+                });
 
                 return new ListViewHolder(itemView);
             }
@@ -54,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
 
     }

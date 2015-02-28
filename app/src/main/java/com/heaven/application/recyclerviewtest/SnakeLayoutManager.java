@@ -61,6 +61,12 @@ public class SnakeLayoutManager extends LinearLayoutManager {
 
                 int left = (int) (((i + first) % 2 == 0 ? Math.cos(radian) : Math.sin(radian)) * 350);
 
+                if((i + first) % 2 == 0){
+                    left = (int) (Math.sin(radian) * 350);
+                }else{
+                    left = (int) (Math.tan(radian) * 350);
+                }
+
                 layoutDecorated(child, left, currentOffset, mDecoratedChildWidth + left, mDecoratedChildHeight + currentOffset);
             }
         }
